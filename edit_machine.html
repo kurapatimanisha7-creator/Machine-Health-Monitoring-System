@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h3 class="mb-4">Edit Machine</h3>
+        <form method="post">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Machine Name</label>
+              <input type="text" class="form-control" name="name" value="{{ machine.name }}" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Machine Type</label>
+              <input type="text" class="form-control" name="machine_type" value="{{ machine.machine_type }}" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-control" name="location" value="{{ machine.location }}" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Manufacturer</label>
+              <input type="text" class="form-control" name="manufacturer" value="{{ machine.manufacturer }}" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Install Date</label>
+              <input type="date" class="form-control" name="install_date" value="{{ machine.install_date }}" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status</label>
+              <select class="form-select" name="status">
+                <option value="Active" {% if machine.status=='Active' %}selected{% endif %}>Active</option>
+                <option value="Maintenance" {% if machine.status=='Maintenance' %}selected{% endif %}>Maintenance</option>
+                <option value="Idle" {% if machine.status=='Idle' %}selected{% endif %}>Idle</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary">Update Machine</button>
+            <a href="{{ url_for('machines') }}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

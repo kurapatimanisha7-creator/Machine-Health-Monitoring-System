@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h3 class="mb-4">Create Maintenance Record</h3>
+        <form method="post">
+          <div class="mb-3">
+            <label class="form-label">Machine</label>
+            <select class="form-select" name="machine_id">
+              {% for machine in machines %}
+              <option value="{{ machine.id }}">{{ machine.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Task</label>
+            <input type="text" class="form-control" name="task" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description"></textarea>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Priority</label>
+              <select class="form-select" name="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Due Date</label>
+              <input type="date" class="form-control" name="due_date" required />
+            </div>
+          </div>
+          <div class="mb-3 mt-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" name="status">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Scheduled">Scheduled</option>
+            </select>
+          </div>
+          <button class="btn btn-primary">Save Record</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h3 class="mb-3">Maintenance Records</h3>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr><th>Machine</th><th>Task</th><th>Priority</th><th>Due Date</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {% for record in records %}
+              <tr>
+                <td>{{ record.machine_name }}</td>
+                <td>{{ record.task }}</td>
+                <td>{{ record.priority }}</td>
+                <td>{{ record.due_date }}</td>
+                <td><span class="badge bg-{{ 'warning' if record.status=='Pending' else 'info' if record.status=='In Progress' else 'secondary' }}">{{ record.status }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

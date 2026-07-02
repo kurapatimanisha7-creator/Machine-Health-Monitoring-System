@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 rounded-4 bg-gradient-primary text-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-white-50">Machines</h6>
+            <h3>{{ machine_count }}</h3>
+          </div>
+          <i class="bi bi-tools fs-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 rounded-4 bg-gradient-success text-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-white-50">Sensor Readings</h6>
+            <h3>{{ sensor_count }}</h3>
+          </div>
+          <i class="bi bi-activity fs-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 rounded-4 bg-gradient-warning text-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-white-50">Maintenance</h6>
+            <h3>{{ maintenance_count }}</h3>
+          </div>
+          <i class="bi bi-wrench-adjustable fs-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 rounded-4 bg-gradient-danger text-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-white-50">Open Alerts</h6>
+            <h3>{{ alert_count }}</h3>
+          </div>
+          <i class="bi bi-bell fs-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h5 class="card-title">Latest Sensor Readings</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr><th>Machine</th><th>Temp</th><th>Vibration</th><th>Pressure</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {% for row in recent_sensor_readings %}
+              <tr>
+                <td>{{ row.machine_name }}</td>
+                <td>{{ row.temperature }}°C</td>
+                <td>{{ row.vibration }}</td>
+                <td>{{ row.pressure }} psi</td>
+                <td><span class="badge bg-{{ 'success' if row.status=='Healthy' else 'warning' if row.status=='Warning' else 'danger' }}">{{ row.status }}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card shadow-sm border-0 rounded-4 h-100">
+      <div class="card-body">
+        <h5 class="card-title">Recent AI Predictions</h5>
+        <ul class="list-group list-group-flush">
+          {% for prediction in recent_predictions %}
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between"><strong>{{ prediction.machine_name }}</strong><span class="badge bg-primary">{{ prediction.predicted_status }}</span></div>
+            <small class="text-muted">Confidence {{ prediction.confidence }}%</small>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row g-4 mt-2">
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h5 class="card-title">Open Alerts</h5>
+        <ul class="list-group list-group-flush">
+          {% for alert in recent_alerts %}
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between"><strong>{{ alert.machine_name }}</strong><span class="badge bg-danger">{{ alert.severity }}</span></div>
+            <small>{{ alert.title }}</small>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h5 class="card-title">System Overview</h5>
+        <p class="text-muted">AI-powered insights for industrial equipment health monitoring and preventive maintenance.</p>
+        <a href="{{ url_for('reports') }}" class="btn btn-outline-primary">View Reports</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

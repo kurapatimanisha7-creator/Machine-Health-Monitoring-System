@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h3 class="mb-4">Sensor Data Entry & AI Prediction</h3>
+        <form method="post">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Machine</label>
+              <select class="form-select" name="machine_id" required>
+                {% for machine in machines %}
+                <option value="{{ machine.id }}">{{ machine.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Temperature (°C)</label>
+              <input type="number" step="0.01" class="form-control" name="temperature" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Vibration</label>
+              <input type="number" step="0.001" class="form-control" name="vibration" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Pressure (psi)</label>
+              <input type="number" step="0.01" class="form-control" name="pressure" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Humidity (%)</label>
+              <input type="number" step="0.01" class="form-control" name="humidity" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">RPM</label>
+              <input type="number" step="0.01" class="form-control" name="rpm" required />
+            </div>
+          </div>
+          <button class="btn btn-primary mt-4">Predict Health</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

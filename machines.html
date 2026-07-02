@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Machine Inventory</h3>
+  <a href="{{ url_for('add_machine') }}" class="btn btn-primary">Add Machine</a>
+</div>
+<div class="card shadow-sm border-0 rounded-4">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr><th>Name</th><th>Type</th><th>Location</th><th>Manufacturer</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          {% for machine in machine_list %}
+          <tr>
+            <td>{{ machine.name }}</td>
+            <td>{{ machine.machine_type }}</td>
+            <td>{{ machine.location }}</td>
+            <td>{{ machine.manufacturer }}</td>
+            <td><span class="badge bg-{{ 'success' if machine.status=='Active' else 'warning' if machine.status=='Maintenance' else 'secondary' }}">{{ machine.status }}</span></td>
+            <td>
+              <a href="{{ url_for('edit_machine', machine_id=machine.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+              <a href="{{ url_for('delete_machine', machine_id=machine.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this machine?')">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

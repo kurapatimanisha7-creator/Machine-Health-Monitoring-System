@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h4 class="mb-3">Performance Trend</h4>
+        <canvas id="trendChart" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body">
+        <h4 class="mb-3">Health Distribution</h4>
+        <canvas id="healthChart" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card shadow-sm border-0 rounded-4 mt-4">
+  <div class="card-body">
+    <h4 class="mb-3">Recent Readings</h4>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr><th>Machine</th><th>Temperature</th><th>Vibration</th><th>Humidity</th><th>Status</th><th>Recorded</th></tr>
+        </thead>
+        <tbody>
+          {% for row in readings %}
+          <tr>
+            <td>{{ row.machine_name }}</td>
+            <td>{{ row.temperature }}</td>
+            <td>{{ row.vibration }}</td>
+            <td>{{ row.humidity }}</td>
+            <td><span class="badge bg-{{ 'success' if row.status=='Healthy' else 'warning' if row.status=='Warning' else 'danger' }}">{{ row.status }}</span></td>
+            <td>{{ row.recorded_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+  const trendCtx = document.getElementById('trendChart');
+  new Chart(trendCtx, {
+    type: 'line',
+    data: {
+      labels: {{ labels|tojson }},
+      datasets: [
+        { label: 'Temperature', data: {{ temperature_data|tojson }}, borderColor: '#0d6efd', tension: 0.3 },
+        { label: 'Vibration', data: {{ vibration_data|tojson }}, borderColor: '#fd7e14', tension: 0.3 }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  const healthCtx = document.getElementById('healthChart');
+  new Chart(healthCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Healthy', 'Warning', 'Critical'],
+      datasets: [{ data: [{{ counts['Healthy'] }}, {{ counts['Warning'] }}, {{ counts['Critical'] }}], backgroundColor: ['#198754', '#ffc107', '#dc3545'] }]
+    },
+    options: { responsive: true }
+  });
+</script>
+{% endblock %}

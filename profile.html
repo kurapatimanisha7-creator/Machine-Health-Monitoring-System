@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-4">
+        <h3 class="mb-4">User Profile</h3>
+        <div class="row g-3">
+          <div class="col-md-6"><strong>Full Name</strong><p>{{ user.full_name }}</p></div>
+          <div class="col-md-6"><strong>Username</strong><p>{{ user.username }}</p></div>
+          <div class="col-md-6"><strong>Email</strong><p>{{ user.email }}</p></div>
+          <div class="col-md-6"><strong>Phone</strong><p>{{ user.phone or 'N/A' }}</p></div>
+          <div class="col-md-6"><strong>Location</strong><p>{{ user.location or 'N/A' }}</p></div>
+          <div class="col-md-6"><strong>Role</strong><p>{{ user.role }}</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
